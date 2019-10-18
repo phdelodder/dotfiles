@@ -1,0 +1,22 @@
+#Include this file using git config --global core.excludesfile ~/.git_global_ignore
+#
+
+##Build tool
+#maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+##IDE tool
+#eclipse
+.project
+.settings
+.checkstyle
+.classpath
+
+#Intellij
+*.iml
+.idea

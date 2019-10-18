@@ -1,0 +1,10 @@
+[push]
+	default = simple
+[user]
+	email = GIT_EMAIL
+	name = GIT_NAME
+[color]
+	ui = auto
+
+[core]
+	excludesfile = ~/.gitignore_global
