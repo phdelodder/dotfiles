@@ -2,7 +2,7 @@
 
 ```
 sudo apt install git zsh vim -y
-git clone --recursive git@github.com:phdelodder/dotfiles.git .dotfiles
+git clone --recursive https://github.com/phdelodder/dotfiles.git .dotfiles
 cd .dotfiles
 ./bootstrap.sh
 ```
