@@ -1,32 +1,5 @@
 #!/bin/bash
 
-
-function win_install_fonts() {
-  local dst_dir
-  dst_dir=$(wslpath $(cmd.exe /c 'echo %LOCALAPPDATA%\Microsoft\Windows\Fonts' 2>/dev/null | sed 's/\r$//'))
-  mkdir -p "$dst_dir"
-  local src
-  for src in "$@"; do
-    local file=$(basename "$src")
-    if [[ ! -f "$dst_dir/$file" ]]; then
-      cp -f "$src" "$dst_dir/"
-    fi
-    local win_path
-    win_path=$(wslpath -w "$dst_dir/$file")
-    # Install font for the current user. It'll appear in "Font settings".
-    reg.exe add                                                 \
-      'HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts' \
-      /v "${file%.*} (TrueType)" /t REG_SZ /d "$win_path" /f 2>/dev/null
-  done
-}
-
-# Install a monospace font.
-function install_fonts() {
-  if [[ $WSL == 1 ]]; then
-    win_install_fonts "$HOME"/.local/share/fonts/NerdFonts/*.ttf
-  fi
-}
-
 function init_git() {
   echo "- Installing git config"
   echo ""
@@ -76,13 +49,12 @@ readonly WSL=$(grep -q Microsoft /proc/version && echo 1 || echo 0)
 # Find it's own location
 readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+echo "- Installing fonts"
+mkdir -p ~/.local/share/fonts/
+ln -s $DIR/.local/share/fonts/NerdFonts ~/.local/share/fonts/
 if [[ $WSL == 1 ]]; then                                       
   echo "- Installing fonts in windows"
-  win_inistall_fonts "$HOME"/.local/share/fonts/NerdFonts/*.ttf 
-else
-  echo "- Installing fonts"
-  mkdir -p ~/.local/share/fonts/
-  ln -s $DIR/.local/share/fonts/NerdFonts ~/.local/share/fonts/
+  echo " Don't forget to install them manually, you need to fix this!"
 fi                                                             
 
 echo "- Creating initial directories"
