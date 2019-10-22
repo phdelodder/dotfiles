@@ -1,21 +1,81 @@
 #!/bin/bash
 
+# Option defaulttring
+# This string needs to be updated with the single character options (e.g. -f)
+opts="fvo:"
+
+usage(){
+echo "\
+`cmd` [OPTION...]
+-n, --git_name; Set GIT Name with argument
+-e, --git_email; Set GIT Email with argument
+--chsh; Set chsh to true
+" | column -t -s ";"
+}
+
+
+# Error message
+error(){
+    echo "`cmd`: invalid option -- '$1'";
+    echo "Try '`cmd` -h' for more information.";
+    exit 1;
+}
+
+# There's two passes here. The first pass handles the long options and
+# any short option that is already in canonical form. The second pass
+# uses `getopt` to canonicalize any remaining short options and handle
+# them
+for pass in 1 2; do
+    while [ -n "$1" ]; do
+        case $1 in
+            --) shift; break;;
+            -*) case $1 in
+                --chsh)		  CHSH=1;;
+		-n| --git_name)  GIT_NAME=$2; shift;;
+		-e| --git_email) GIT_EMAIL=$2; shift;;
+                --*)           error $1;;
+                -*)            if [ $pass -eq 1 ]; then ARGS="$ARGS $1";
+                               else error $1; fi;;
+                esac;;
+            *)  if [ $pass -eq 1 ]; then ARGS="$ARGS $1";
+                else error $1; fi;;
+        esac
+        shift
+    done
+    if [ $pass -eq 1 ]; then ARGS=`getopt $opts $ARGS`
+        if [ $? != 0 ]; then usage; exit 2; fi; set -- $ARGS
+    fi
+done
+
+# Handle positional arguments
+if [ -n "$*" ]; then
+    echo "`cmd`: Extra arguments -- $*"
+    echo "Try '`cmd` -h' for more information."
+    exit 1
+fi
+
 function init_git() {
   echo "- Installing git config"
-  echo ""
-  echo "What's your full name (for git purposes)?"
-  read full_name
-  echo ""
-  echo "What's your email address?"
-  read email
+  if [[ -z "$GIT_NAME" ]]
+  then
+    echo ""
+    echo "What's your full name (for git purposes)?"
+ i   read GIT_NAME
+  fi
+  if [[ -z "$GIT_EMAIL" ]]
+  then
+    echo ""
+    echo "What's your email address?"
+    read GIT_EMAIL
+  fi
 
   for file in .gitignore .gitconfig; do
     cp -p $DIR/$file $HOME/$file;
   done;
 
   # replace the placeholders in .gitconfig with user input
-  sed -i -e "s/GIT_NAME/$full_name/g" $HOME/.gitconfig
-  sed -i -e "s/GIT_EMAIL/$email/g" $HOME/.gitconfig
+  sed -i -e "s/GIT_NAME/$GIT_NAME/g" $HOME/.gitconfig
+  sed -i -e "s/GIT_EMAIL/$GIT_EMAIL/g" $HOME/.gitconfig
 }
 
 function init_vim() {
@@ -63,6 +123,9 @@ mkdir -p $HOME/src $HOME/bin
 init_git
 init_zsh
 init_vim
-change_shell
+
+if [[ -z "$CHSH" ]]; then 
+  change_shell
+fi
 
 
