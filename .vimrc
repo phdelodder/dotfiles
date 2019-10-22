@@ -26,6 +26,7 @@ set title
 set showcmd
 set t_Co=256:
 set cursorline
+set shiftwidth=2
 syntax on
 
 set autoread "set autoread when a file changes
