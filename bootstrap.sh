@@ -60,7 +60,7 @@ function init_git() {
   then
     echo ""
     echo "What's your full name (for git purposes)?"
- i   read GIT_NAME
+    read GIT_NAME
   fi
   if [[ -z "$GIT_EMAIL" ]]
   then
