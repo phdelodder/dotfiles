@@ -9,15 +9,16 @@
 ## Installation Steps
 
 ```
-sudo apt install git zsh vim -y
+sudo apt install git -y
 git clone --recursive https://github.com/phdelodder/dotfiles.git .dotfiles
 cd .dotfiles
 ./bootstrap.sh
 ```
 
-`bootstrap.sh` is safe to re-run (e.g. after pulling changes) — it symlinks
-config files/directories into place, sets up `~/.gitconfig`, and switches
-your default shell to zsh.
+`bootstrap.sh` is safe to re-run (e.g. after pulling changes) — it installs
+`zsh`/`vim` via `apt-get` if they're missing (Debian/Ubuntu only; on other
+systems, install them yourself first), symlinks config files/directories
+into place, sets up `~/.gitconfig`, and switches your default shell to zsh.
 
 Options:
 

@@ -73,12 +73,34 @@ function change_shell() {
   chsh -s "$(grep -E '/zsh$' /etc/shells | tail -1)"
 }
 
+function ensure_packages() {
+  local missing=()
+  for pkg_cmd in git zsh vim; do
+    command -v "$pkg_cmd" >/dev/null 2>&1 || missing+=("$pkg_cmd")
+  done
+
+  if [ ${#missing[@]} -eq 0 ]; then
+    return 0
+  fi
+
+  if ! command -v apt-get >/dev/null 2>&1; then
+    echo "- Missing packages: ${missing[*]} (no apt-get found, install them manually)"
+    return 0
+  fi
+
+  echo "- Installing missing packages: ${missing[*]}"
+  sudo apt-get update -y
+  sudo apt-get install -y "${missing[@]}"
+}
+
 echo "Bootstrapping Environment"
 
 # '1' if running under Windows Subsystem for Linux, '0' otherwise.
 readonly WSL=$(grep -q Microsoft /proc/version && echo 1 || echo 0)
 # Find it's own location
 readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+ensure_packages
 
 echo "- Installing fonts"
 mkdir -p ~/.local/share/fonts/
