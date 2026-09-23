@@ -3,7 +3,6 @@
 - `.zshrc` / `.p10k.zsh` — zsh config via [oh-my-zsh](modules/oh-my-zsh) with the [powerlevel10k](modules/powerlevel10k) theme (both vendored as git submodules)
 - `.vimrc` — vim settings
 - `.gitconfig` / `.gitignore_global` — git config, installed to `~/.gitconfig` and referenced via `core.excludesfile`
-- `zsh-themes/` — custom zsh themes symlinked into oh-my-zsh's theme directory
 - `.local/share/fonts/NerdFonts` — Nerd Font, symlinked into `~/.local/share/fonts`
 
 ## Installation Steps
