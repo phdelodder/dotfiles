@@ -82,7 +82,7 @@ readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "- Installing fonts"
 mkdir -p ~/.local/share/fonts/
-ln -s $DIR/.local/share/fonts/NerdFonts ~/.local/share/fonts/
+ln -sf $DIR/.local/share/fonts/NerdFonts ~/.local/share/fonts/
 if [[ $WSL == 1 ]]; then                                       
   echo "- Installing fonts in windows"
   echo " Don't forget to install them manually, you need to fix this!"
