@@ -70,16 +70,18 @@ function init_vim() {
 
 function init_zsh() {
   echo "- Initializing zsh"
-  for file in .zshrc .p10k.zsh ; do
+  for file in .zshrc ; do
     ln -sf $DIR/$file $HOME/$file;
   done;
 
   ln -sf $DIR/modules/oh-my-zsh $HOME/.oh-my-zsh
-  ln -sf $DIR/modules/powerlevel10k $HOME/.oh-my-zsh/themes/powerlevel10k
 
   mkdir -p $HOME/.oh-my-zsh/custom/plugins
   ln -sf $DIR/modules/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
   ln -sf $DIR/modules/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+
+  mkdir -p $HOME/.config
+  ln -sf $DIR/starship.toml $HOME/.config/starship.toml
 }
 
 function change_shell() {
@@ -89,7 +91,7 @@ function change_shell() {
 
 function ensure_packages() {
   local missing=()
-  for pkg_cmd in git zsh vim; do
+  for pkg_cmd in git zsh vim starship; do
     command -v "$pkg_cmd" >/dev/null 2>&1 || missing+=("$pkg_cmd")
   done
 
