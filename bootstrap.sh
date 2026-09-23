@@ -81,19 +81,19 @@ function init_git() {
 function init_vim() {
   echo "- Initializing vim"
   for file in .vimrc ; do
-    ln -s $DIR/$file $HOME/$file;
+    ln -sf $DIR/$file $HOME/$file;
   done;
 }
 
 function init_zsh() {
   echo "- Initializing zsh"
   for file in .zshrc .p10k.zsh ; do
-    ln -s $DIR/$file $HOME/$file;
+    ln -sf $DIR/$file $HOME/$file;
   done;
 
-  ln -s $DIR/modules/oh-my-zsh $HOME/.oh-my-zsh
-  ln -s $DIR/modules/powerlevel10k $HOME/.oh-my-zsh/themes/powerlevel10k
-  ln -s $DIR/zsh-themes/*.zsh-theme $HOME/.oh-my-zsh/themes/
+  ln -sf $DIR/modules/oh-my-zsh $HOME/.oh-my-zsh
+  ln -sf $DIR/modules/powerlevel10k $HOME/.oh-my-zsh/themes/powerlevel10k
+  ln -sf $DIR/zsh-themes/*.zsh-theme $HOME/.oh-my-zsh/themes/
 }
 
 function change_shell() {
