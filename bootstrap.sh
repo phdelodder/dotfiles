@@ -6,7 +6,7 @@ opts="fvo:"
 
 usage(){
 echo "\
-`cmd` [OPTION...]
+$(basename "$0") [OPTION...]
 -n, --git_name; Set GIT Name with argument
 -e, --git_email; Set GIT Email with argument
 --chsh; Set chsh to true
@@ -16,8 +16,8 @@ echo "\
 
 # Error message
 error(){
-    echo "`cmd`: invalid option -- '$1'";
-    echo "Try '`cmd` -h' for more information.";
+    echo "$(basename "$0"): invalid option -- '$1'";
+    echo "Try '$(basename "$0") -h' for more information.";
     exit 1;
 }
 
