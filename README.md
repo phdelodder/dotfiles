@@ -1,7 +1,8 @@
 ## What's in here
 
-- `.zshrc` / `.p10k.zsh` — zsh config via [oh-my-zsh](modules/oh-my-zsh) with the [powerlevel10k](modules/powerlevel10k) theme (both vendored as git submodules)
-- `.vimrc` — vim settings
+- `.zshrc` — zsh config via [oh-my-zsh](modules/oh-my-zsh) with [zsh-autosuggestions](modules/zsh-autosuggestions) and [zsh-syntax-highlighting](modules/zsh-syntax-highlighting) (vendored as git submodules)
+- `starship.toml` — prompt config for [starship](https://starship.rs), symlinked to `~/.config/starship.toml`
+- `.vimrc` — vim settings, with [vim-plug](modules/vim-plug) (vendored as a git submodule) as the plugin manager
 - `.gitconfig` / `.gitignore_global` — git config, installed to `~/.gitconfig` and referenced via `core.excludesfile`
 - `.local/share/fonts/NerdFonts` — Nerd Font, symlinked into `~/.local/share/fonts`
 
@@ -44,8 +45,8 @@ own `user` module (`shell: /usr/bin/zsh`) instead.
 
 ## Updating
 
-See [MAINTAINING.md](MAINTAINING.md) for bumping the oh-my-zsh and
-powerlevel10k submodules to their latest upstream versions.
+See [MAINTAINING.md](MAINTAINING.md) for bumping vendored submodules to
+their latest upstream versions.
 
 ## Additional Steps for WSL
 
