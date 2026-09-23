@@ -66,6 +66,10 @@ function init_zsh() {
   ln -sf $DIR/modules/oh-my-zsh $HOME/.oh-my-zsh
   ln -sf $DIR/modules/powerlevel10k $HOME/.oh-my-zsh/themes/powerlevel10k
   ln -sf $DIR/zsh-themes/*.zsh-theme $HOME/.oh-my-zsh/themes/
+
+  mkdir -p $HOME/.oh-my-zsh/custom/plugins
+  ln -sf $DIR/modules/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  ln -sf $DIR/modules/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 }
 
 function change_shell() {
