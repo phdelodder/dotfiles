@@ -93,7 +93,7 @@ function init_zsh() {
 
   ln -s $DIR/modules/oh-my-zsh $HOME/.oh-my-zsh
   ln -s $DIR/modules/powerlevel10k $HOME/.oh-my-zsh/themes/powerlevel10k
-  ln -s $DIR/zsh-themes/*.theme $HOME/.oh-my-zsh/themes/
+  ln -s $DIR/zsh-themes/*.zsh-theme $HOME/.oh-my-zsh/themes/
 }
 
 function change_shell() {
