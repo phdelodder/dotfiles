@@ -1,6 +1,11 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+call plug#begin('~/.vim/plugged')
+" Add plugins here, e.g:
+" Plug 'tpope/vim-sensible'
+call plug#end()
+
 filetype plugin indent on    " required
 
 " my settings --------------------------------------------------------------

@@ -55,6 +55,9 @@ function init_vim() {
   for file in .vimrc ; do
     ln -sf $DIR/$file $HOME/$file;
   done;
+
+  mkdir -p $HOME/.vim/autoload
+  ln -sf $DIR/modules/vim-plug/plug.vim $HOME/.vim/autoload/plug.vim
 }
 
 function init_zsh() {
