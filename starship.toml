@@ -16,6 +16,7 @@ vcs_clean = "#5fd700"
 vcs_modified = "#d7af00"
 status_error = "#d70000"
 duration_fg = "#a8a8a8"
+host_fg = "#ff8700"
 
 [username]
 style_user = "bg:bg_gray fg:duration_fg"
@@ -25,7 +26,7 @@ disabled = false
 
 [hostname]
 ssh_only = true
-style = "bg:bg_gray fg:dir_fg"
+style = "bg:bg_gray fg:host_fg"
 format = "[@$hostname ]($style)"
 
 [directory]
