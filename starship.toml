@@ -1,81 +1,49 @@
 "$schema" = "https://starship.rs/config-schema.json"
 
 format = """
-$username$hostname[](fg:blue)$directory[](fg:blue bg:mauve)$git_branch$git_status[](fg:mauve) $jobs$status\
+[ $directory$git_branch$git_status ](bg:bg_gray) $jobs$status\
 $line_break\
 $character"""
 
 right_format = """$cmd_duration"""
 
-palette = "catppuccin_macchiato"
+palette = "p10k_classic"
 
-[palettes.catppuccin_macchiato]
-rosewater = "#f4dbd6"
-flamingo = "#f0c6c6"
-pink = "#f5bde6"
-mauve = "#c6a0f6"
-red = "#ed8796"
-maroon = "#ee99a0"
-peach = "#f5a97f"
-yellow = "#eed49f"
-green = "#a6da95"
-teal = "#8bd5ca"
-sky = "#91d7e3"
-sapphire = "#7dc4e4"
-blue = "#8aadf4"
-lavender = "#b7bdf8"
-text = "#cad3f5"
-subtext1 = "#b8c0e0"
-subtext0 = "#a5adcb"
-overlay2 = "#939ab7"
-overlay1 = "#8087a2"
-overlay0 = "#6e738d"
-surface2 = "#5b6078"
-surface1 = "#494d64"
-surface0 = "#363a4f"
-base = "#24273a"
-mantle = "#1e2030"
-crust = "#181926"
-
-[username]
-style_user = "bold sapphire"
-style_root = "bold red"
-format = "[$user]($style) "
-disabled = false
-
-[hostname]
-ssh_only = true
-style = "bold peach"
-format = "[@$hostname]($style) "
+[palettes.p10k_classic]
+bg_gray = "#444444"
+dir_fg = "#0087af"
+vcs_clean = "#5fd700"
+vcs_modified = "#d7af00"
+status_error = "#d70000"
+duration_fg = "#a8a8a8"
 
 [directory]
-style = "bg:blue fg:base"
-format = "[ $path ]($style)"
-truncation_length = 3
-truncation_symbol = "…/"
+style = "bg:bg_gray fg:dir_fg"
+format = "[$path]($style)"
+truncation_length = 0
+truncate_to_repo = false
 
 [git_branch]
-symbol = ""
-style = "bg:mauve fg:base"
-format = "[ $symbol $branch ]($style)"
+style = "bg:bg_gray fg:vcs_clean"
+format = " [$branch]($style)"
 
 [git_status]
-style = "bg:mauve fg:base"
-format = "[$all_status$ahead_behind ]($style)"
+style = "bg:bg_gray fg:vcs_modified"
+format = "([ $all_status$ahead_behind]($style))"
 
 [cmd_duration]
-style = "fg:yellow"
+style = "fg:duration_fg"
 format = "[$duration ]($style)"
 
 [jobs]
-style = "fg:green"
+style = "fg:vcs_clean"
 format = "[$symbol$number ]($style)"
 
 [status]
-style = "fg:red"
+style = "fg:status_error"
 format = "[$symbol$status ]($style)"
 disabled = false
 
 [character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[❯](bold red)"
+success_symbol = "[❯](bold vcs_clean)"
+error_symbol = "[❯](bold status_error)"
