@@ -1,7 +1,7 @@
 "$schema" = "https://starship.rs/config-schema.json"
 
 format = """
-[ $directory$git_branch$git_status ](bg:bg_gray) $jobs$status\
+[ $username$hostname$directory$git_branch$git_status ](bg:bg_gray) $jobs$status\
 $line_break\
 $character"""
 
@@ -16,6 +16,17 @@ vcs_clean = "#5fd700"
 vcs_modified = "#d7af00"
 status_error = "#d70000"
 duration_fg = "#a8a8a8"
+
+[username]
+style_user = "bg:bg_gray fg:duration_fg"
+style_root = "bg:bg_gray fg:status_error"
+format = "[$user]($style)"
+disabled = false
+
+[hostname]
+ssh_only = true
+style = "bg:bg_gray fg:dir_fg"
+format = "[@$hostname ]($style)"
 
 [directory]
 style = "bg:bg_gray fg:dir_fg"
