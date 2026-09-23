@@ -27,6 +27,11 @@ while [ -n "$1" ]; do
 done
 
 function init_git() {
+  if [[ -f "$HOME/.gitconfig" ]]; then
+    echo "- Git config already installed, leaving \$HOME/.gitconfig as-is"
+    return 0
+  fi
+
   echo "- Installing git config"
   if [[ -z "$GIT_NAME" ]]
   then
@@ -61,27 +66,27 @@ function init_git() {
 function init_vim() {
   echo "- Initializing vim"
   for file in .vimrc ; do
-    ln -sf $DIR/$file $HOME/$file;
+    ln -sfn $DIR/$file $HOME/$file;
   done;
 
   mkdir -p $HOME/.vim/autoload
-  ln -sf $DIR/modules/vim-plug/plug.vim $HOME/.vim/autoload/plug.vim
+  ln -sfn $DIR/modules/vim-plug/plug.vim $HOME/.vim/autoload/plug.vim
 }
 
 function init_zsh() {
   echo "- Initializing zsh"
   for file in .zshrc ; do
-    ln -sf $DIR/$file $HOME/$file;
+    ln -sfn $DIR/$file $HOME/$file;
   done;
 
-  ln -sf $DIR/modules/oh-my-zsh $HOME/.oh-my-zsh
+  ln -sfn $DIR/modules/oh-my-zsh $HOME/.oh-my-zsh
 
   mkdir -p $HOME/.oh-my-zsh/custom/plugins
-  ln -sf $DIR/modules/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-  ln -sf $DIR/modules/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+  ln -sfn $DIR/modules/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  ln -sfn $DIR/modules/zsh-syntax-highlighting $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 
   mkdir -p $HOME/.config
-  ln -sf $DIR/starship.toml $HOME/.config/starship.toml
+  ln -sfn $DIR/starship.toml $HOME/.config/starship.toml
 }
 
 function change_shell() {

@@ -16,9 +16,11 @@ cd .dotfiles
 ```
 
 `bootstrap.sh` is safe to re-run (e.g. after pulling changes) — it installs
-`zsh`/`vim` via `apt-get` if they're missing (Debian/Ubuntu only; on other
-systems, install them yourself first), symlinks config files/directories
-into place, sets up `~/.gitconfig`, and switches your default shell to zsh.
+`zsh`/`vim`/`starship` via `apt-get` if they're missing (Debian/Ubuntu only;
+on other systems, install them yourself first), symlinks config
+files/directories into place, and switches your default shell to zsh.
+`~/.gitconfig` is only set up on the first run — once it exists, re-running
+leaves it alone so any edits you've made since aren't overwritten.
 
 Options:
 
