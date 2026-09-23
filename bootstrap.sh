@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Option defaulttring
-# This string needs to be updated with the single character options (e.g. -f)
-opts="fvo:"
-
 usage(){
 echo "\
 $(basename "$0") [OPTION...]
@@ -13,7 +9,6 @@ $(basename "$0") [OPTION...]
 " | column -t -s ";"
 }
 
-
 # Error message
 error(){
     echo "$(basename "$0"): invalid option -- '$1'";
@@ -21,38 +16,15 @@ error(){
     exit 1;
 }
 
-# There's two passes here. The first pass handles the long options and
-# any short option that is already in canonical form. The second pass
-# uses `getopt` to canonicalize any remaining short options and handle
-# them
-for pass in 1 2; do
-    while [ -n "$1" ]; do
-        case $1 in
-            --) shift; break;;
-            -*) case $1 in
-                --chsh)		  CHSH=1;;
-		-n| --git_name)  GIT_NAME=$2; shift;;
-		-e| --git_email) GIT_EMAIL=$2; shift;;
-                --*)           error $1;;
-                -*)            if [ $pass -eq 1 ]; then ARGS="$ARGS $1";
-                               else error $1; fi;;
-                esac;;
-            *)  if [ $pass -eq 1 ]; then ARGS="$ARGS $1";
-                else error $1; fi;;
-        esac
-        shift
-    done
-    if [ $pass -eq 1 ]; then ARGS=`getopt $opts $ARGS`
-        if [ $? != 0 ]; then usage; exit 2; fi; set -- $ARGS
-    fi
+while [ -n "$1" ]; do
+    case "$1" in
+        -n|--git_name)  GIT_NAME="$2"; shift 2;;
+        -e|--git_email) GIT_EMAIL="$2"; shift 2;;
+        --chsh)         CHSH=1; shift;;
+        -h|--help)      usage; exit 0;;
+        *)              error "$1";;
+    esac
 done
-
-# Handle positional arguments
-if [ -n "$*" ]; then
-    echo "`cmd`: Extra arguments -- $*"
-    echo "Try '`cmd` -h' for more information."
-    exit 1
-fi
 
 function init_git() {
   echo "- Installing git config"
