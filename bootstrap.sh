@@ -130,7 +130,14 @@ ensure_packages
 
 echo "- Installing fonts"
 mkdir -p ~/.local/share/fonts/
-ln -sf $DIR/.local/share/fonts/NerdFonts ~/.local/share/fonts/
+FONTS_LINK="$HOME/.local/share/fonts/NerdFonts"
+if [ -L "$FONTS_LINK" ]; then
+  ln -sfn "$DIR/.local/share/fonts/NerdFonts" "$FONTS_LINK"
+elif [ -e "$FONTS_LINK" ]; then
+  echo "  $FONTS_LINK already exists and isn't a symlink -- leaving it alone (remove it yourself first if you want this repo's fonts linked in)"
+else
+  ln -s "$DIR/.local/share/fonts/NerdFonts" "$FONTS_LINK"
+fi
 if [[ $WSL == 1 ]]; then                                       
   echo "- Installing fonts in windows"
   echo " Don't forget to install them manually, you need to fix this!"
