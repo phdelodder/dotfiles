@@ -1,17 +1,5 @@
 "$schema" = "https://starship.rs/config-schema.json"
-
-format = """
-$hostname\
-$directory\
-$git_branch\
-$git_status\
-$docker_context\
-$c$rust$golang$nodejs$bun$php$java$kotlin$haskell$python$conda\
-$line_break\
-$character"""
-
-right_format = """$cmd_duration$jobs$status$time"""
-
+format = "$username$hostname$localip$shlvl$singularity$kubernetes$nats$directory[$vcsh$fossil_branch$fossil_metrics$git_branch$git_commit$git_state$git_metrics$git_status$hg_branch$hg_state$pijul_channel]()$docker_context$package[$bun$c$cobol$cpp$daml$dart$deno$dotnet$elixir$elm$erlang$fennel$fortran$gleam$golang$haskell$haxe$java$julia$kotlin$lua$mojo$nim$nodejs$ocaml$odin$perl$php$purescript$python$quarto$raku$rlang$red$ruby$rust$scala$solidity$swift$typst$vlang$zig$crystal]()[$cmake$gradle$maven$vagrant$xmake$buf$meson$spack]()$helm$opa$pulumi$terraform$guix_shell$nix_shell$conda$pixi$memory_usage$aws$gcloud$openstack$azure$direnv$env_var$mise$custom$sudo$cmd_duration$line_break$jobs$battery$time$status$container$netns$os$shell$character"
 palette = "catppuccin_macchiato"
 
 [palettes.catppuccin_latte]
@@ -126,90 +114,14 @@ base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
 
-[hostname]
-ssh_only = true
-format = "[@$hostname](bold red) "
+[character]
+success_symbol = "[ ❯](peach)"
+error_symbol = "[ ❯](peach)"
+vimcmd_symbol = "[❮](subtext1)"
 
 [directory]
-truncation_length = 3
+truncation_length = 4
 style = "bold lavender"
 
 [git_branch]
 style = "bold mauve"
-format = "[$symbol$branch]($style) "
-
-[git_status]
-style = "bold red"
-format = "[$all_status$ahead_behind]($style) "
-
-[docker_context]
-style = "bold blue"
-format = "[$symbol$context]($style) "
-
-[c]
-style = "bold blue"
-format = "[$symbol($version)]($style) "
-
-[rust]
-style = "bold peach"
-format = "[$symbol($version)]($style) "
-
-[golang]
-style = "bold sapphire"
-format = "[$symbol($version)]($style) "
-
-[nodejs]
-style = "bold green"
-format = "[$symbol($version)]($style) "
-
-[bun]
-style = "bold peach"
-format = "[$symbol($version)]($style) "
-
-[php]
-style = "bold mauve"
-format = "[$symbol($version)]($style) "
-
-[java]
-style = "bold red"
-format = "[$symbol($version)]($style) "
-
-[kotlin]
-style = "bold mauve"
-format = "[$symbol($version)]($style) "
-
-[haskell]
-style = "bold mauve"
-format = "[$symbol($version)]($style) "
-
-[python]
-style = "bold yellow"
-format = "[$symbol($version)]($style) "
-
-[conda]
-style = "bold green"
-format = "[$symbol$environment]($style) "
-
-[cmd_duration]
-style = "bold yellow"
-format = "[$duration]($style) "
-
-[jobs]
-style = "bold green"
-format = "[$symbol$number]($style) "
-
-[status]
-disabled = false
-style = "bold red"
-format = "[$symbol$status]($style) "
-
-[time]
-disabled = false
-time_format = "%R"
-style = "bold overlay1"
-format = "[$time]($style)"
-
-[character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[❯](bold red)"
-vimcmd_symbol = "[❮](bold green)"
