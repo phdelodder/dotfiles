@@ -94,18 +94,22 @@ function change_shell() {
   chsh -s "$(grep -E '/zsh$' /etc/shells | tail -1)"
 }
 
+function install_starship_fallback() {
+  # Not packaged for apt on every distro (e.g. Ubuntu 24.04/noble) -- fall
+  # back to the official installer, non-interactively.
+  curl -sS https://starship.rs/install.sh | "$@" sh -s -- -y
+}
+
 function ensure_packages() {
   local missing=()
-  for pkg_cmd in git zsh vim starship; do
+  for pkg_cmd in git zsh vim curl; do
     command -v "$pkg_cmd" >/dev/null 2>&1 || missing+=("$pkg_cmd")
   done
 
-  if [ ${#missing[@]} -eq 0 ]; then
-    return 0
-  fi
+  local need_starship=0
+  command -v starship >/dev/null 2>&1 || need_starship=1
 
-  if ! command -v apt-get >/dev/null 2>&1; then
-    echo "- Missing packages: ${missing[*]} (no apt-get found, install them manually)"
+  if [ ${#missing[@]} -eq 0 ] && [ "$need_starship" -eq 0 ]; then
     return 0
   fi
 
@@ -114,9 +118,26 @@ function ensure_packages() {
     as_root=(sudo)
   fi
 
-  echo "- Installing missing packages: ${missing[*]}"
+  if ! command -v apt-get >/dev/null 2>&1; then
+    [ ${#missing[@]} -gt 0 ] && echo "- Missing packages: ${missing[*]} (no apt-get found, install them manually)"
+    [ "$need_starship" -eq 1 ] && install_starship_fallback "${as_root[@]}"
+    return 0
+  fi
+
   DEBIAN_FRONTEND=noninteractive "${as_root[@]}" apt-get update -y
-  DEBIAN_FRONTEND=noninteractive "${as_root[@]}" apt-get install -y "${missing[@]}"
+
+  if [ ${#missing[@]} -gt 0 ]; then
+    echo "- Installing missing packages: ${missing[*]}"
+    DEBIAN_FRONTEND=noninteractive "${as_root[@]}" apt-get install -y "${missing[@]}"
+  fi
+
+  if [ "$need_starship" -eq 1 ]; then
+    echo "- Installing starship"
+    if ! DEBIAN_FRONTEND=noninteractive "${as_root[@]}" apt-get install -y starship 2>/dev/null; then
+      echo "  starship isn't packaged for apt here, falling back to the official installer"
+      install_starship_fallback "${as_root[@]}"
+    fi
+  fi
 }
 
 echo "Bootstrapping Environment"
