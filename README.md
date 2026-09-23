@@ -27,6 +27,21 @@ Options:
 --chsh                   Skip changing the default shell to zsh
 ```
 
+## Unattended / automated runs (e.g. Ansible)
+
+`bootstrap.sh` is safe to run non-interactively as long as `-n`/`--git_name`
+and `-e`/`--git_email` are always passed — without a TTY it fails fast with
+a clear error instead of hanging on the interactive prompt. Package
+installs (`apt-get`) run with `DEBIAN_FRONTEND=noninteractive` and skip
+`sudo` automatically when already running as root, so it works the same
+whether invoked directly as the target user or via a `become: true` task.
+
+The one thing worth handling at the Ansible layer instead: `chsh` (called
+unless `--chsh` is passed) changes the shell of whichever user the script
+is running as, not a named target user. If your play runs as root via
+`become`, pass `--chsh` to skip it and set the login shell with Ansible's
+own `user` module (`shell: /usr/bin/zsh`) instead.
+
 ## Updating
 
 See [MAINTAINING.md](MAINTAINING.md) for bumping the oh-my-zsh and

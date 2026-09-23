@@ -30,12 +30,20 @@ function init_git() {
   echo "- Installing git config"
   if [[ -z "$GIT_NAME" ]]
   then
+    if [[ ! -t 0 ]]; then
+      echo "$(basename "$0"): no TTY to prompt for a name -- pass --git_name" >&2
+      exit 1
+    fi
     echo ""
     echo "What's your full name (for git purposes)?"
     read GIT_NAME
   fi
   if [[ -z "$GIT_EMAIL" ]]
   then
+    if [[ ! -t 0 ]]; then
+      echo "$(basename "$0"): no TTY to prompt for an email -- pass --git_email" >&2
+      exit 1
+    fi
     echo ""
     echo "What's your email address?"
     read GIT_EMAIL
@@ -94,9 +102,14 @@ function ensure_packages() {
     return 0
   fi
 
+  local as_root=()
+  if [[ "$(id -u)" -ne 0 ]]; then
+    as_root=(sudo)
+  fi
+
   echo "- Installing missing packages: ${missing[*]}"
-  sudo apt-get update -y
-  sudo apt-get install -y "${missing[@]}"
+  DEBIAN_FRONTEND=noninteractive "${as_root[@]}" apt-get update -y
+  DEBIAN_FRONTEND=noninteractive "${as_root[@]}" apt-get install -y "${missing[@]}"
 }
 
 echo "Bootstrapping Environment"
